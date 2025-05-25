@@ -14,6 +14,6 @@ module detector_borda (
         end
     end
 
-    assign detector = entrada & (~entrada_reg);
-
+    
+    assign detector = entrada & ~entrada_reg;
 endmodule
