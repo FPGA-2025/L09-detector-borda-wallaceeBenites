@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ -z "$1" ]; then
     echo "Erro: É preciso especificar o número do teste"
     exit 1
@@ -17,4 +18,3 @@ else
     echo "ERRO"
     exit 1
 fi
-
