@@ -1,0 +1,93 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x626e38a17540 .scope module, "tb" "tb" 2 1;
+ .timescale 0 0;
+v0x626e38a2d420_0 .var "clk", 0 0;
+v0x626e38a2d4e0 .array "dados_arquivo", 4 0, 1 0;
+v0x626e38a2d580_0 .net "detector", 1 0, L_0x626e38a2d8d0;  1 drivers
+v0x626e38a2d620_0 .var "entrada", 1 0;
+v0x626e38a2d6c0_0 .var/i "i", 31 0;
+v0x626e38a2d7d0_0 .var "rst", 0 0;
+S_0x626e38a176d0 .scope module, "d" "detector_borda" 2 12, 3 1 0, S_0x626e38a17540;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst";
+    .port_info 2 /INPUT 2 "entrada";
+    .port_info 3 /OUTPUT 2 "detector";
+L_0x626e38a044c0 .functor NOT 2, v0x626e38a2d1b0_0, C4<00>, C4<00>, C4<00>;
+L_0x626e38a2d8d0 .functor AND 2, v0x626e38a2d620_0, L_0x626e38a044c0, C4<11>, C4<11>;
+v0x626e38a17860_0 .net *"_ivl_0", 1 0, L_0x626e38a044c0;  1 drivers
+v0x626e38a2cf50_0 .net "clk", 0 0, v0x626e38a2d420_0;  1 drivers
+v0x626e38a2d010_0 .net "detector", 1 0, L_0x626e38a2d8d0;  alias, 1 drivers
+v0x626e38a2d0d0_0 .net "entrada", 1 0, v0x626e38a2d620_0;  1 drivers
+v0x626e38a2d1b0_0 .var "entrada_reg", 1 0;
+v0x626e38a2d2e0_0 .net "rst", 0 0, v0x626e38a2d7d0_0;  1 drivers
+E_0x626e389dd1f0 .event posedge, v0x626e38a2d2e0_0, v0x626e38a2cf50_0;
+    .scope S_0x626e38a176d0;
+T_0 ;
+    %wait E_0x626e389dd1f0;
+    %load/vec4 v0x626e38a2d2e0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 2;
+    %assign/vec4 v0x626e38a2d1b0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x626e38a2d0d0_0;
+    %assign/vec4 v0x626e38a2d1b0_0, 0;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x626e38a17540;
+T_1 ;
+    %delay 1, 0;
+    %load/vec4 v0x626e38a2d420_0;
+    %pushi/vec4 0, 0, 1;
+    %cmp/e;
+    %flag_get/vec4 6;
+    %store/vec4 v0x626e38a2d420_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0x626e38a17540;
+T_2 ;
+    %vpi_call 2 24 "$readmemb", "teste.txt", v0x626e38a2d4e0 {0 0 0};
+    %vpi_call 2 26 "$dumpfile", "saida.vcd" {0 0 0};
+    %vpi_call 2 27 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x626e38a17540 {0 0 0};
+    %vpi_call 2 30 "$monitor", "entrada[0]=%b, detector[0]=%b, entrada[1]=%b, detector[1]=%b", &PV<v0x626e38a2d620_0, 0, 1>, &PV<v0x626e38a2d580_0, 0, 1>, &PV<v0x626e38a2d620_0, 1, 1>, &PV<v0x626e38a2d580_0, 1, 1> {0 0 0};
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x626e38a2d7d0_0, 0, 1;
+    %delay 2, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x626e38a2d7d0_0, 0, 1;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x626e38a2d6c0_0, 0, 32;
+T_2.0 ;
+    %load/vec4 v0x626e38a2d6c0_0;
+    %cmpi/s 5, 0, 32;
+    %jmp/0xz T_2.1, 5;
+    %ix/getv/s 4, v0x626e38a2d6c0_0;
+    %load/vec4a v0x626e38a2d4e0, 4;
+    %store/vec4 v0x626e38a2d620_0, 0, 2;
+    %delay 2, 0;
+    %load/vec4 v0x626e38a2d6c0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x626e38a2d6c0_0, 0, 32;
+    %jmp T_2.0;
+T_2.1 ;
+    %delay 2, 0;
+    %vpi_call 2 40 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "tb.v";
+    "detector-borda.v";
